@@ -13,16 +13,16 @@
 function dsLinkedList(type) {
     this.type = type || 'single';
     this.head = null;
-    this.nodeCount = 0;
+    this.size = 0;
 
-    this.insert = function(nodeValue, position) {
+    this.add = function(nodeValue, position) {
         if (!nodeValue)
             return false;
 
         var position = position || 1;
 
         if (position > 1) {
-            (position > this.nodeCount) ? position = this.nodeCount: position;
+            (position > this.size) ? position = this.size: position;
             var currNode = this.head;
             var bfrNode = null;
             var posInc = 1;
@@ -39,7 +39,7 @@ function dsLinkedList(type) {
             };
 
             bfrNode.next = node;
-            this.nodeCount++;
+            this.size++;
             return node;
 
         } else {
@@ -49,7 +49,7 @@ function dsLinkedList(type) {
             };
 
             this.head = node;
-            this.nodeCount++;
+            this.size++;
             return node;
 
         }
@@ -58,14 +58,14 @@ function dsLinkedList(type) {
 
     };
 
-    this.getAll = function() {
+    this.getAllNodes = function() {
         var nodes = [];
         var currNode = this.head;
-        for (var i = 0; i < this.nodeCount; i++) {
-            nodes.push(currNode);
+        console.log(this.size);
 
-            if (currNode.next !== null)
-                currNode = currNode.next;
+        while (currNode !== null) {
+            nodes.push(currNode);
+            currNode = currNode.next;
         }
 
         return nodes;
@@ -76,9 +76,9 @@ function dsLinkedList(type) {
             return false;
 
         var currNode = this.head;
-        (position > this.nodeCount) ? position = this.nodeCount: '';
+        (position > this.size) ? position = this.size: '';
 
-        for (var i = 1; i <= this.nodeCount; i++) {
+        for (var i = 1; i <= this.size; i++) {
             if (i === position)
                 return currNode.value;
 
@@ -92,65 +92,54 @@ function dsLinkedList(type) {
         if (isNaN(position))
             return false;
 
-        if (position > 1 && this.nodeCount > 1) {
+        if (position > 1 && this.size > 1) {
             var currNode = this.head;
             var bfrNode = null;
-            position = (position > this.nodeCount) ? this.nodeCount : position; 
+            position = (position > this.size) ? this.size : position;
 
             for (var i = 1; i < position; i++) {
-              if(currNode.next !== null) {
+                if (currNode.next !== null) {
                     bfrNode = currNode;
                     currNode = currNode.next;
                 }
             }
 
             bfrNode.next = currNode.next;
-            this.nodeCount--;
+            this.size--;
         } else {
-            this.head = (this.nodeCount > 1) ? this.head.next : null;
-            this.nodeCount--;
+            this.head = (this.size > 1) ? this.head.next : null;
+            this.size--;
         }
     };
 
-    this.delete = function(value) {
-        if(isNaN(value))
-            return false;
-
-        if(this.nodeCount === 0)
-            return true;
-
-        var currNode = this.head;
-        var bfrNode = null;
-
-        while (currNode !== null) {
-            if(currNode.value === value) {
-                if(bfrNode.null && currNode.next === null) {
-                    this.head = null;
-                    this.nodeCount--;
-                    break;
-                }
-
-                bfrNode.next = currNode.next;
-                this.nodeCount--;
-            }
-
-            bfrNode = currNode;
-            currNode = currNode.next;
-        }
-
-        return true;
+    this.delete = function() {
+        this.deleteAt(1);
     };
 
     this.sort = function() {
 
     };
 
-    this.merge = function() {
+    this.merge = function(list) {
+        console.log('size: ' + list.size);
+        if (list.size === 0)
+            return;
 
+        var currNode = this.head;
+
+        while (currNode.next !== null)
+            currNode = currNode.next;
+
+        currNode.next = list.head;
+        return true;
     };
 
     this.clear = function() {
+        delete this.head.next;
+        delete this.head.value;
         this.head = null;
+        this.size = 0;
         return true;
     };
+
 }
