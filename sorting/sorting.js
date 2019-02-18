@@ -90,21 +90,26 @@ function dsSorting() {
             return arr;
 
         for (var i = 1; i < arr.length; i++) {
-        	var pivotValue = arr[i];
+            var pivotValue = arr[i];
 
             for (var j = i - 1; j >= 0; j--) {
-            	if(order === 'asc') {
-            		while(arr[j] > arr[j + 1])
-            			this.swap(arr, j, j + 1);
-            	} else if (order === 'desc') {
-            		while(arr[j] < arr[j + 1])
-            			this.swap(arr, j, j + 1);
-            	}
+                if (order === 'asc') {
+                    while (arr[j] > arr[j + 1])
+                        this.swap(arr, j, j + 1);
+                } else if (order === 'desc') {
+                    while (arr[j] < arr[j + 1])
+                        this.swap(arr, j, j + 1);
+                }
             }
         }
 
         return arr;
     }
+
+
+    /*
+     * Quick sort
+     */
 
     this.quickSort = function() {};
     this.mergeSort = function() {};

@@ -9,5 +9,5 @@
 	console.log(ll1.getAllNodes()); */
 
 	var sorting = new dsSorting();
-	console.log(sorting.insertionSort([3,2,1, 123, 2,3, 999 ,123 ,1], 'desc'));
+	console.log(sorting.insertionSort([3,2,1, 123, 2,3, 999 ,123 ,1], 'asc'));
 </script>
