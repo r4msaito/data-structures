@@ -5,6 +5,7 @@
 'use strict';
 
 function dsSorting() {
+    this.globalCounter = 0;
 
     /*
      * Bubble sort
@@ -80,7 +81,7 @@ function dsSorting() {
 
 
     /*
-     * Selection sort
+     * Insertion sort
      */
 
     this.insertionSort = function(arr, order) {
@@ -90,8 +91,6 @@ function dsSorting() {
             return arr;
 
         for (var i = 1; i < arr.length; i++) {
-            var pivotValue = arr[i];
-
             for (var j = i - 1; j >= 0; j--) {
                 if (order === 'asc') {
                     while (arr[j] > arr[j + 1])
@@ -111,9 +110,51 @@ function dsSorting() {
      * Quick sort
      */
 
-    this.quickSort = function() {};
-    this.mergeSort = function() {};
+    this.quickSort = function(arr, order, minIdx, maxIdx) {
+        var orde = order || 'asc';
+        var minIdx = minIdx || 0;
+        var maxIdx = maxIdx || arr.length - 1;
+        var pivotIdx = Math.ceil((minIdx + maxIdx) / 2);
+
+
+    };
+
+
+    /*
+     * Merge sort
+     */
+
+    this.mergeSort = function(arr, order, startIdx, endIdx) {
+        var order = order || 'asc';
+        var startIdx = (typeof startIdx !== 'undefined') ? startIdx : 0;
+        var endIdx = (typeof endIdx !== 'undefined') ? endIdx : arr.length - 1;
+        var mid = Math.floor(startIdx + (endIdx - startIdx) / 2);
+
+        if (startIdx >= endIdx)
+            return;
+
+        this.mergeSort(arr, order, startIdx, mid); //Sort the first half
+        this.mergeSort(arr, order, mid + 1, endIdx); //Sort the second half
+
+        //Do the actual merge
+        for (var i = startIdx + 1; i <= endIdx; i++) {
+            for (var j = i - 1; j >= startIdx; j--) {
+                if (arr[j] > arr[j + 1])
+                    this.swap(arr, j, j + 1);
+            }
+        }
+
+        return arr;
+
+    };
+
+
+    /*
+     * Shell sort
+     */
+
     this.shellSort = function() {};
+
 
     /*
      * Swap the values in two array indexes
