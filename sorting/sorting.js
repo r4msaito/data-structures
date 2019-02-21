@@ -214,7 +214,26 @@ function dsSorting() {
      * Shell sort
      */
 
-    this.shellSort = function() {};
+    this.shellSort = function(arr, order) {
+        var order = (this.acceptedSortingOrders.indexOf(order) !== -1) ? order : 'asc';
+        var interval = 4; //Harcoded interval
+
+        for (var i = 0; i <= arr.length - 1; i = i + (interval - 1)) {
+            var nxtInterval = i + (interval - 1);
+            if (interval === 1)
+                return this.insertionSort(arr, order);
+
+            if (typeof arr[nxtInterval] === 'undefined')
+                continue;
+
+            if (arr[i] < arr[nxtInterval])
+                this.swap(arr, i, nxtInterval);
+
+            interval = Math.floor(interval / 2);
+        }
+
+        return arr;
+    };
 
 
     /*

@@ -9,5 +9,6 @@
 	console.log(ll1.getAllNodes()); */
 
 	var sorting = new dsSorting();
-	console.log(sorting.quickSort([1000,1,1,,23,34,2002,300301,2,3,4,343,5,343,3], 'ascss'));
+	//console.log(sorting.shellSort([1000,1,1,,23,34,2002,300301,2,3,4,343,5,343,3], 'asc'));
+	console.log(sorting.shellSort([100,1,1,23,34,2002,300301,2,3,4,343,5,343,3], 'asc'));
 </script>
