@@ -5,14 +5,14 @@
 'use strict';
 
 function dsSorting() {
-    this.globalCounter = 0;
+    this.acceptedSortingOrders = ['asc', 'desc'];
 
     /*
      * Bubble sort
      */
 
     this.bubbleSort = function(arr, order) {
-        var order = order || 'asc';
+        var order = (this.acceptedSortingOrders.indexOf(order) !== -1) ? order : 'asc';
         var swapped = false;
         var thisClass = this;
 
@@ -48,7 +48,7 @@ function dsSorting() {
      */
 
     this.selectionSort = function(arr, order) {
-        var order = order || 'asc';
+        var order = (this.acceptedSortingOrders.indexOf(order) !== -1) ? order : 'asc';
 
         if (arr.length <= 1)
             return arr;
@@ -85,7 +85,7 @@ function dsSorting() {
      */
 
     this.insertionSort = function(arr, order) {
-        var order = order || 'asc';
+        var order = (this.acceptedSortingOrders.indexOf(order) !== -1) ? order : 'asc';
 
         if (arr.length <= 0)
             return arr;
@@ -111,12 +111,49 @@ function dsSorting() {
      */
 
     this.quickSort = function(arr, order, minIdx, maxIdx) {
-        var orde = order || 'asc';
-        var minIdx = minIdx || 0;
-        var maxIdx = maxIdx || arr.length - 1;
-        var pivotIdx = Math.ceil((minIdx + maxIdx) / 2);
+        var order = (this.acceptedSortingOrders.indexOf(order) !== -1) ? order : 'asc';
+        var minIdx = (typeof minIdx === 'undefined') ? 0 : minIdx;
+        var maxIdx = (typeof maxIdx === 'undefined') ? arr.length - 1 : maxIdx;
+        var pivotIdx = maxIdx;
+        var newPivotIdx = pivotIdx;
+        var rp = pivotIdx - 1;
+        var lp = minIdx;
 
+        if (minIdx >= maxIdx)
+            return;
 
+        while (lp !== rp) {
+            if (order === 'asc') {
+                if (arr[lp] > arr[pivotIdx]) {
+                    (arr[rp] < arr[pivotIdx]) ? (this.swap(arr, rp, lp), lp++) : rp--;
+                } else {
+                    lp++;
+                }
+            } else if (order === 'desc') {
+                if (arr[lp] < arr[pivotIdx]) {
+                    (arr[rp] > arr[pivotIdx]) ? (this.swap(arr, rp, lp), lp++) : rp--;
+                } else {
+                    lp++;
+                }
+            }
+
+        }
+
+        if (lp === rp) {
+            if (order === 'asc' && arr[lp] > arr[pivotIdx]) {
+                this.swap(arr, lp, pivotIdx);
+                newPivotIdx = lp;
+            } else if (order === 'desc' && arr[lp] < arr[pivotIdx]) {
+                this.swap(arr, lp, pivotIdx);
+                newPivotIdx = lp;
+            }
+
+        }
+
+        this.quickSort(arr, order, minIdx, newPivotIdx - 1);
+        this.quickSort(arr, order, newPivotIdx + 1, maxIdx)
+
+        return arr;
     };
 
 
@@ -125,7 +162,7 @@ function dsSorting() {
      */
 
     this.mergeSort = function(arr, order, startIdx, endIdx) {
-        var order = order || 'asc';
+        var order = (this.acceptedSortingOrders.indexOf(order) !== -1) ? order : 'asc';
         var startIdx = (typeof startIdx !== 'undefined') ? startIdx : 0;
         var endIdx = (typeof endIdx !== 'undefined') ? endIdx : arr.length - 1;
 
@@ -139,6 +176,10 @@ function dsSorting() {
         //Let the sorting begin
         var lArr = [];
         var rArr = [];
+        var lp = 0;
+        var rp = 0;
+        var tempArr = [];
+        var tempArrIdx = 0;
 
         for (var l = startIdx; l <= mid; l++)
             lArr.push(arr[l]);
@@ -146,25 +187,20 @@ function dsSorting() {
         for (var r = mid + 1; r <= endIdx; r++)
             rArr.push(arr[r]);
 
-        var li = 0;
-        var ri = 0;
-        var tempArr = [];
-        var tempArrIdx = 0;
-
-        while (li < lArr.length && ri < rArr.length) {
-            if (lArr[li] < rArr[ri]) {
-                (order === 'asc') ? (tempArr[tempArrIdx] = lArr[li], li++) : (tempArr[tempArrIdx] = rArr[ri], ri++);
+        while (lp < lArr.length && rp < rArr.length) {
+            if (lArr[lp] < rArr[rp]) {
+                (order === 'asc') ? (tempArr[tempArrIdx] = lArr[lp], lp++) : (tempArr[tempArrIdx] = rArr[rp], rp++);
             } else {
-                (order === 'asc') ? (tempArr[tempArrIdx] = rArr[ri], ri++) : (tempArr[tempArrIdx] = lArr[li], li++);
+                (order === 'asc') ? (tempArr[tempArrIdx] = rArr[rp], rp++) : (tempArr[tempArrIdx] = lArr[lp], lp++);
             }
 
             tempArrIdx++;
         }
 
-        for (var l = li; l < lArr.length; l++)
+        for (var l = lp; l < lArr.length; l++)
             tempArr.push(lArr[l]);
 
-        for (var r = ri; r < rArr.length; r++)
+        for (var r = rp; r < rArr.length; r++)
             tempArr.push(rArr[r]);
 
         for (var x = startIdx, i = 0; x <= endIdx; x++, i++)
