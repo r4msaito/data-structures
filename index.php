@@ -9,5 +9,5 @@
 	console.log(ll1.getAllNodes()); */
 
 	var sorting = new dsSorting();
-	console.log(sorting.mergeSort([10,9,8,7, 6,5,4], 'asc'));
+	console.log(sorting.mergeSort([10,9,8,7,6,5,4,3,4,53,3,3, 3, 334, 56,24,676], 'asc'));
 </script>

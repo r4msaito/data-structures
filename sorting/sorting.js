@@ -128,24 +128,49 @@ function dsSorting() {
         var order = order || 'asc';
         var startIdx = (typeof startIdx !== 'undefined') ? startIdx : 0;
         var endIdx = (typeof endIdx !== 'undefined') ? endIdx : arr.length - 1;
-        var mid = Math.floor(startIdx + (endIdx - startIdx) / 2);
 
         if (startIdx >= endIdx)
             return;
 
-        this.mergeSort(arr, order, startIdx, mid); //Sort the first half
-        this.mergeSort(arr, order, mid + 1, endIdx); //Sort the second half
+        var mid = Math.abs(Math.floor((startIdx + (endIdx - 1)) / 2));
+        this.mergeSort(arr, order, startIdx, mid);
+        this.mergeSort(arr, order, mid + 1, endIdx);
 
-        //Do the actual merge
-        for (var i = startIdx + 1; i <= endIdx; i++) {
-            for (var j = i - 1; j >= startIdx; j--) {
-                if (arr[j] > arr[j + 1])
-                    this.swap(arr, j, j + 1);
+        //Let the sorting begin
+        var lArr = [];
+        var rArr = [];
+
+        for (var l = startIdx; l <= mid; l++)
+            lArr.push(arr[l]);
+
+        for (var r = mid + 1; r <= endIdx; r++)
+            rArr.push(arr[r]);
+
+        var li = 0;
+        var ri = 0;
+        var tempArr = [];
+        var tempArrIdx = 0;
+
+        while (li < lArr.length && ri < rArr.length) {
+            if (lArr[li] < rArr[ri]) {
+                (order === 'asc') ? (tempArr[tempArrIdx] = lArr[li], li++) : (tempArr[tempArrIdx] = rArr[ri], ri++);
+            } else {
+                (order === 'asc') ? (tempArr[tempArrIdx] = rArr[ri], ri++) : (tempArr[tempArrIdx] = lArr[li], li++);
             }
+
+            tempArrIdx++;
         }
 
-        return arr;
+        for (var l = li; l < lArr.length; l++)
+            tempArr.push(lArr[l]);
 
+        for (var r = ri; r < rArr.length; r++)
+            tempArr.push(rArr[r]);
+
+        for (var x = startIdx, i = 0; x <= endIdx; x++, i++)
+            arr[x] = tempArr[i];
+
+        return arr;
     };
 
 
