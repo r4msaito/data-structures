@@ -132,7 +132,7 @@ function dsSorting() {
         if (startIdx >= endIdx)
             return;
 
-        var mid = Math.abs(Math.floor((startIdx + (endIdx - 1)) / 2));
+        var mid = Math.floor((startIdx + (endIdx - 1)) / 2);
         this.mergeSort(arr, order, startIdx, mid);
         this.mergeSort(arr, order, mid + 1, endIdx);
 
