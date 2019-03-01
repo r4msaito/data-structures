@@ -120,6 +120,12 @@ function dsLinkedList(type) {
 
     };
 
+    this.bubbleSort = function(){};
+    this.selectionSort = function() {};
+    this.insertionSort = function() {};
+    this.quickSort = function() {};
+    this.mergeSort = function() {};
+
     this.merge = function(list) {
         console.log('size: ' + list.size);
         if (list.size === 0)
