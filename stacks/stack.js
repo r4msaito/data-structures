@@ -1,0 +1,7 @@
+/*
+ * Stacks
+ */
+
+(function(window) {
+	
+}(window));
